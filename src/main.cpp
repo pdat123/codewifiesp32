@@ -90,13 +90,11 @@ void conncettowifi()
       Serial.print("DNS server: ");
       Serial.println(WiFi.dnsIP());
 
-      // digitalWrite(Ledwifi , HIGH);
     }
     else
     {
       Serial.println("Wifi connection failed.Please try again.");
 
-      // digitalWrite(Ledwifi , LOW);
     }
   }
 }
