@@ -4,6 +4,8 @@
 String ssid;
 String password;
 
+#define Ledwifi 2
+
 void scanwifi(){
   int a = WiFi.scanNetworks();
   if (a == 0)
@@ -87,10 +89,14 @@ void conncettowifi()
       Serial.println(WiFi.subnetMask());
       Serial.print("DNS server: ");
       Serial.println(WiFi.dnsIP());
+
+      // digitalWrite(Ledwifi , HIGH);
     }
     else
     {
       Serial.println("Wifi connection failed.Please try again.");
+
+      // digitalWrite(Ledwifi , LOW);
     }
   }
 }
@@ -103,9 +109,13 @@ void disconnectowifi()
 
 void setup()
 {
+  pinMode(Ledwifi , OUTPUT);
+
   WiFi.mode(WIFI_STA);
+
   WiFi.disconnect(true);
   Serial.begin(115200);
+
   Serial.println("Setup done");
   scanwifi();
   delay(1000);
@@ -114,6 +124,12 @@ void setup()
 
 void loop()
 {
+  
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    digitalWrite(Ledwifi , HIGH);
+  }
+
   if (Serial.available())
   {
     String command = Serial.readString();
@@ -128,6 +144,9 @@ void loop()
         Serial.print(".");
         delay(1000);
       }
+
+      digitalWrite(Ledwifi , LOW);
+
       Serial.println("");
       scanwifi();
       delay(1000);
